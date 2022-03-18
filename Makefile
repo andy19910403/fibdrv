@@ -9,8 +9,12 @@ PWD := $(shell pwd)
 
 GIT_HOOKS := .git/hooks/applied
 
+$(TARGET_MODULE)-objs := fibdrv_core.o xs.o bn.o
+
 all: $(GIT_HOOKS) client
 	$(MAKE) -C $(KDIR) M=$(PWD) modules
+	$(MAKE) unload
+	$(MAKE) load
 
 $(GIT_HOOKS):
 	@scripts/install-git-hooks
@@ -32,10 +36,16 @@ PASS_COLOR = \e[32;01m
 NO_COLOR = \e[0m
 pass = $(PRINTF) "$(PASS_COLOR)$1 Passed [-]$(NO_COLOR)\n"
 
+plot: all
+	$(MAKE) unload
+	$(MAKE) load
+	@python3 scripts/driver.py
+	$(MAKE) unload
+	
 check: all
 	$(MAKE) unload
 	$(MAKE) load
 	sudo ./client > out
 	$(MAKE) unload
-	@diff -u out scripts/expected.txt && $(call pass)
+	#@diff -u out scripts/expected.txt && $(call pass)
 	@scripts/verify.py

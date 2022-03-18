@@ -1,7 +1,8 @@
 # Prerequisites
 *.d
 .cache.mk
-
+*.data
+*.data.old
 # Object files
 *.o
 *.ko

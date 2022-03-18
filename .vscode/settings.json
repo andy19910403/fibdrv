@@ -1,0 +1,10 @@
+{
+    "C_Cpp.errorSquiggles": "Enabled",
+    "C_Cpp.intelliSenseEngineFallback": "Enabled",
+    "files.associations": {
+        "fcntl.h": "c",
+        "string.h": "c",
+        "device.h": "c",
+        "bn.h": "c"
+    }
+}
