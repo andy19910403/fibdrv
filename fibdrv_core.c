@@ -269,6 +269,13 @@ static ssize_t fib_read(struct file *file,
     kt = ktime_get();
     (ssize_t) fib_fast_double_bn(*offset, user_buf);
     kt = ktime_sub(ktime_get(), kt);
+    if (size == 0) {
+        fib_fast_double_recursive(*offset, buf);
+        fib_cahce_recursive(*offset, buf);
+        fib_fast_double_iterative(*offset);
+        fib_sequence(*offset, buf);
+        fib_naive_iterative(*offset);
+    }
     return (ssize_t) ktime_to_ns(kt);
     ;
 }
@@ -281,13 +288,6 @@ static ssize_t fib_write(struct file *file,
                          loff_t *offset)
 {
     // return (ssize_t)ktime_to_ns(kt);
-    if (size == 0) {
-        fib_fast_double_recursive(*offset, buf);
-        fib_cahce_recursive(*offset, buf);
-        fib_fast_double_iterative(*offset);
-        fib_sequence(*offset, buf);
-        fib_naive_iterative(*offset);
-    }
     return 1;
 }
 
